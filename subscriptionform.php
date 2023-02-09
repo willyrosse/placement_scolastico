@@ -1,8 +1,10 @@
 <?php
 // Controllo se il form è stato inviato
+
+$email = $_POST["email"];
 if (isset($_POST["submit"])) {
     // elaborazione del form
-    $email = $_POST["email"];
+    
     $course = "PCTO";
 
     //validazione dell'indirizzo email
@@ -40,7 +42,7 @@ if (isset($_POST["submit"])) {
         
         echo "Sei ora registrato per il corso PCTO! Ti invieremo ulteriori informazioni alla tua email.";
         exit;
-        }
+    }
         ?>
         
         <!DOCTYPE html>
@@ -56,3 +58,5 @@ if (isset($_POST["submit"])) {
         </form>
         </body>
         </html>
+
+        
