@@ -30,6 +30,6 @@
   // Close the database connection
   mysqli_close($db);
 
-  echo "l'Email è stata inviata alla segreteria, che provvederà ad inviarla alla scuola";
+  echo "l'Email è stata inviata alla segreteria, che provvederà ad inviarla agli studenti iscritti";
   }
 ?>

@@ -1,50 +1,99 @@
-x<?php
-include 'ch19_include.php';
-
-if (!$_POST) {
-  $display_block = <<<END_OF_BLOCK
-  <form method="POST" action="$_SERVER[PHP_SELF]">
-    <p><label for="subject">Subject:</label><br>
-    <input type="text" id="subject" name="subject" size="40"></p>
-    <p><label for="message">Mail Body:</label><br>
-    <textarea id="message" name="message" cols="50" rows="10"></textarea></p>
-    <button type="submit" name="submit" value="submit">Submit</button>
-  </form>
-END_OF_BLOCK;
-} else if ($_POST) {
-  if (($_POST['subject'] == "") || ($_POST['message'] == "")) {
-    header("Location: sendmymail.php");
-    exit;
-  }
-  doDB();
-  if (mysqli_connect_errno()) {
-    printf("Connect failed: %s\n", mysqli_connect_error());
-    exit();
-  } else {
-    $sql = "SELECT email FROM subscribers";
-    $result = mysqli_query($mysqli, $sql)
-             or die(mysqli_error($mysqli));
-    $mailheaders = "From: Your Mailing List
-        <you@yourdomain.com>";
-    while ($row = mysqli_fetch_array($result)) {
-      set_time_limit(0);
-      $email = $row['email'];
-      mail("$email", stripslashes($_POST['subject']),
-           stripslashes($_POST['message']), $mailheaders);
-      $display_block .= "newsletter sent to: ".$email."<br>";
-    }
-    mysqli_free_result($result);
-    mysqli_close($mysqli);
-  }
-}
-?>
-<!DOCTYPE html>
 <html>
 <head>
-  <title>Sending a Newsletter</title>
+	<title>Recupero dati dalla tabella email_queue</title>
 </head>
 <body>
-  <h1>Send a Newsletter</h1>
-  <?php echo $display_block; ?>
+	<h1>Recupero dati dalla tabella email_queue</h1>
+	<table id="email_queue_table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>To Address</th>
+				<th>Subject</th>
+				<th>Message</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- qui verranno aggiunti i dati recuperati dalla tabella email_queue -->
+		</tbody>
+	</table>
+
+	<script src="path/to/your/script.js"></script>
 </body>
+
+<script>
+// Definizione della funzione per recuperare i dati dalla tabella email_queue
+function getEmailQueueData() {
+    // Creazione della richiesta HTTP
+    var xhttp = new XMLHttpRequest();
+
+    // Funzione da eseguire quando la richiesta viene completata
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Parsing dei dati in formato JSON
+            var emailQueueData = JSON.parse(this.responseText);
+
+            // Aggiunta dei dati alla tabella HTML
+            var emailQueueTableBody = document.querySelector('#email_queue_table tbody');
+            emailQueueData.forEach(function(row) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + row.id + '</td>' +
+                               '<td>' + row.to_address + '</td>' +
+                               '<td>' + row.subject + '</td>' +
+                               '<td>' + row.message + '</td>';
+                emailQueueTableBody.appendChild(tr);
+            });
+        }
+    };
+
+    // Apertura della connessione alla URL che recupera i dati dalla tabella email_queue
+    xhttp.open("GET", "path/to/your/get_email_queue_data.php", true);
+    xhttp.send();
+}
+
+// Chiamata alla funzione per recuperare i dati dalla tabella email_queue al caricamento della pagina
+window.onload = getEmailQueueData;
+</script>
+
+
+
+
+
+
+<?php
+// Connessione al database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "lavoro";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connessione al database fallita: " . $conn->connect_error);
+}
+
+// Query per recuperare i dati dalla tabella email_queue
+$sql = "SELECT id, to_address, subject, message FROM email_queue";
+$result = $conn->query($sql);
+
+// Array per salvare i dati recuperati dalla tabella email_queue
+$emailQueueData = array();
+
+// Ciclo sui risultati della query e aggiunta dei dati all'array
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $emailQueueData[] = $row;
+    }
+}
+
+// Chiusura della connessione al database
+$conn->close();
+
+// Impostazione dell'header della risposta come JSON
+header('Content-Type: application/json');
+
+// Restituzione dei dati in formato JSON
+echo json_encode($emailQueueData);
+?>
+
 </html>
