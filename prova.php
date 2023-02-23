@@ -4,10 +4,10 @@
 <br>
     <img style="width:33%" src="https://scaling.spaggiari.eu/MIIT0065/logo/4975.png&amp;rs=%2FtccTw2MgxYfdxRYmYOB6HjkoZcUOGTiYi6QRxuVV5sOGTp63rmnr%2BRTYVh7%2BFO%2FGwXtspJHA9p4BXfBXCcE%2BNfMTv1f63V8Ma7anOoEpmr1vY686jQADlCXWoD41fhLPKDeb5KzEXlN3xj5VLED2HK76ruGkCrzhAMWUaH%2BXdg%3D" alt="ITIS S. Cannizzaro Rho">
 <form method="POST" action="">
-    <p><label for="subject" style="text-color: #0B4C5F">Oggetto:</label><br/>
-    <input type="text" id="subject" name="subject" placeholder="inserire soggetto" size="40" style="background-color: #0B4C5F"></p>
+    <p><label for="subject" >Oggetto:</label><br/>
+    <input type="text" id="subject" name="subject" placeholder="inserire soggetto" size="40" style="background-color: #0B4C5F; color:#FFFFFF" ></p>
     <p><label for="message">Contenuto:</label><br/>
-    <textarea id="message" name="message" cols="50" rows="10" placeholder="inserire testo" style="background-color: #0B4C5F"></textarea></p>
+    <textarea id="message" name="message" cols="50" rows="10" placeholder="inserire testo" style="background-color: #0B4C5F; color:#FFFFFF"></textarea></p>
     <p id="lista"></p>
     <button type="submit" name="submit" value="submit">Invia</button>
   </form>
@@ -51,12 +51,15 @@ try {
     // Content
     $mail->isHTML(true);
                                       // Set email format to HTML
+    if (isset($_POST ['subject']) && isset($_POST ['message'])){
     $mail->Subject = $_POST['subject'];
     $mail->Body = $_POST['message'];
     
-
+    
+    $mail->SMTPDebug = 0;
     $mail->send();
     echo 'Message has been sent';
+    }
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }

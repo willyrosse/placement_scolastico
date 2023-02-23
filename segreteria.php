@@ -1,4 +1,4 @@
-<?php
+x<?php
 include 'ch19_include.php';
 
 if (!$_POST) {
