@@ -2,15 +2,16 @@
   <head>
     <title>invio mail a database</title>
   </head>
-  <img style="width:20%" src="logo-ministero-black.png" alt="Logo ministero istruzione">
-<br>
-    <img style="width:33%" src="https://scaling.spaggiari.eu/MIIT0065/logo/4975.png&amp;rs=%2FtccTw2MgxYfdxRYmYOB6HjkoZcUOGTiYi6QRxuVV5sOGTp63rmnr%2BRTYVh7%2BFO%2FGwXtspJHA9p4BXfBXCcE%2BNfMTv1f63V8Ma7anOoEpmr1vY686jQADlCXWoD41fhLPKDeb5KzEXlN3xj5VLED2HK76ruGkCrzhAMWUaH%2BXdg%3D" alt="ITIS S. Cannizzaro Rho">
-<br><br>
 
-<form method="POST" onsubmit="return submitForm()">
-    <label for="subject" >Oggetto:</label><br/>
-    <input type="text" id="subject" name="subject" placeholder="inserire soggetto" size="40" style="background-color: #0B4C5F; color:#FFFFFF" ></p>
-    <label for="message">Contenuto:</label><br/>
+  <img style="width:20%" src="logo-ministero-black.png" alt="Logo ministero istruzione">
+  <br>
+  <img style="width:33%" src="https://scaling.spaggiari.eu/MIIT0065/logo/4975.png&amp;rs=%2FtccTw2MgxYfdxRYmYOB6HjkoZcUOGTiYi6QRxuVV5sOGTp63rmnr%2BRTYVh7%2BFO%2FGwXtspJHA9p4BXfBXCcE%2BNfMTv1f63V8Ma7anOoEpmr1vY686jQADlCXWoD41fhLPKDeb5KzEXlN3xj5VLED2HK76ruGkCrzhAMWUaH%2BXdg%3D" alt="ITIS S. Cannizzaro Rho">
+  <br><br>
+
+  <form method="POST" onsubmit="return submitForm()">
+    <label for="subject">Oggetto:</label><br />
+    <input type="text" id="subject" name="subject" placeholder="inserire soggetto" size="40" style="background-color: #0B4C5F; color:#FFFFFF"></p>
+    <label for="message">Contenuto:</label><br />
     <textarea id="message" name="message" cols="50" rows="10" placeholder="inserire testo" style="background-color: #0B4C5F; color:#FFFFFF"></textarea></p>
     <button type="submit" name="submit" value="submit">Invia</button>
   </form>
@@ -21,9 +22,11 @@
 $subject = '';
 $message = '';
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']))
+{
   // Check if subject and message are not empty
-  if (!empty($_POST['subject']) && !empty($_POST['message'])) {
+  if (!empty($_POST['subject']) && !empty($_POST['message']))
+  {
     $subject = $_POST['subject'];
     $message = $_POST['message'];
 
@@ -38,7 +41,9 @@ if (isset($_POST['submit'])) {
     mysqli_close($db);
 
     echo "l'Email è stata inviata alla segreteria, che provvederà ad inviarla agli studenti iscritti";
-  } else {
+  }
+  else
+  {
     echo "Errore: ricordati di riempire entrambi i campi";
   }
 }

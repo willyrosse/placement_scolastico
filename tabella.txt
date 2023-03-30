@@ -1,0 +1,10 @@
+create database if not exists lavoro;
+use lavoro;
+CREATE TABLE email_queue if not exists
+(
+id INT AUTO_INCREMENT PRIMARY KEY,
+to_address VARCHAR(255) NOT NULL,
+subject VARCHAR(255) NOT NULL,
+message TEXT NOT NULL,
+date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

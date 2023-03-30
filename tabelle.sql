@@ -1,5 +1,5 @@
 create database if not exists lavoro;
-
+use lavoro;
 create table if not exists subscribers(
 id INT AUTO_INCREMENT PRIMARY KEY,
 email varchar(255) NOT NULL
